@@ -1,0 +1,49 @@
+<html>
+    <head>
+        <title>Show URL list</title>
+        <meta charset="utf-8">
+        <script src="https://www.youtube.com/iframe_api"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+    </head>
+
+<body>
+        <h2>URL一覧</h2>
+        <table border="1">
+        %for url in url_list:
+          <tr>
+            <td>{{url["id"]}}</td>
+            <td>{{url["url"]}}</td>
+          </tr>
+        %end
+        </table>
+        {{video_id}}
+  <script type="text/javascript">
+  var ytPlayer;
+        function onYouTubeIframeAPIReady(){
+           ytPlayer = new YT.Player(
+                'youtube',
+                {
+                    width: 640,
+                    height: 390,
+                    videoId: "{{video_id}}",
+                    events: {
+                      'onReady': onPlayerReady,
+                      'onStateChange': onPlayerStateChange
+                    }
+                });
+            }
+
+        function onPlayerReady(event){
+          ytPlayer.playVideo();
+        }
+
+        function onPlayerStateChange(event){
+          var ytStatus = event.data;
+          if(ytStatus == YT.PlayerState.ENDED){
+            location.reload();
+          }
+        }
+  </script>
+        <div id="youtube"></div>
+</body>
+</html>
